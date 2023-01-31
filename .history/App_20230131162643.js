@@ -1,8 +1,7 @@
 let addTodo = document.querySelector('#todo'),
     btn = document.querySelector('#btn'),
     todo = document.querySelector('#myUL'),
-    closeLI = document.querySelector('#closeLi'),
-    checkAllTodos = document.querySelector('.check-all-todos')
+    closeLI = document.querySelector('#closeLi')
     ;
 
 
@@ -14,8 +13,6 @@ addTodo.addEventListener('keyup', function(event){
         createTodo();
     }
 });
-
-checkAllTodos.addEventListener('click',complitedAllTodo)
 
 function createTodo(){
 let text = addTodo.value.trim().replace(/\s+/g, ' ');
@@ -63,18 +60,6 @@ function deleteTask(event){
          render();
     }
 }
-
-function complitedAllTodo(event){
-    const complitedAll = event.target.classList.contains("check-all-todos")? "checked" : ""
-    arr.forEach(function(item){
-        item.checked = complitedAll
-    })
-    console.log(event.target.classList.contains("check-all-todos"))
-    render()
-}
-
-
-
 
 //arr.find(item.id) === taskId
 // checkbox

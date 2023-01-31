@@ -1,8 +1,7 @@
 let addTodo = document.querySelector('#todo'),
     btn = document.querySelector('#btn'),
     todo = document.querySelector('#myUL'),
-    closeLI = document.querySelector('#closeLi'),
-    checkAllTodos = document.querySelector('.check-all-todos')
+    closeLI = document.querySelector('#closeLi')
     ;
 
 
@@ -14,8 +13,6 @@ addTodo.addEventListener('keyup', function(event){
         createTodo();
     }
 });
-
-checkAllTodos.addEventListener('click',complitedAllTodo)
 
 function createTodo(){
 let text = addTodo.value.trim().replace(/\s+/g, ' ');
@@ -37,10 +34,9 @@ addTodo.value = '';
 function render(){
     let displayMessage = '';
     arr.forEach(function(item){
-    const complited = item.checked? "checked" : ""
     displayMessage += `
     <li id=${item.id}>
-    <input type='checkbox' ${complited} class='checkbox'>
+    <input type='checkbox' class='checkbox'>
     <label for='${item.id}'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
@@ -58,23 +54,9 @@ function deleteTask(event){
 }
     if(event.target.classList.contains("checkbox")){
          const task = arr.find((item)=>item.id === taskId)
-         task.checked = !task.checked;
-         console.log(arr)
          render();
     }
 }
-
-function complitedAllTodo(event){
-    const complitedAll = event.target.classList.contains("check-all-todos")? "checked" : ""
-    arr.forEach(function(item){
-        item.checked = complitedAll
-    })
-    console.log(event.target.classList.contains("check-all-todos"))
-    render()
-}
-
-
-
 
 //arr.find(item.id) === taskId
 // checkbox

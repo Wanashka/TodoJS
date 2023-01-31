@@ -69,7 +69,6 @@ function complitedAllTodo(event){
     arr.forEach(function(item){
         item.checked = complitedAll
     })
-    console.log(event.target.classList.contains("check-all-todos"))
     render()
 }
 

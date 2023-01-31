@@ -16,6 +16,9 @@ addTodo.addEventListener('keyup', function(event){
 });
 
 checkAllTodos.addEventListener('click',complitedAllTodo)
+function complitedAllTodo(){
+    console.log("!")
+}
 
 function createTodo(){
 let text = addTodo.value.trim().replace(/\s+/g, ' ');
@@ -63,17 +66,6 @@ function deleteTask(event){
          render();
     }
 }
-
-function complitedAllTodo(event){
-    const complitedAll = event.target.classList.contains("check-all-todos")? "checked" : ""
-    arr.forEach(function(item){
-        item.checked = complitedAll
-    })
-    console.log(event.target.classList.contains("check-all-todos"))
-    render()
-}
-
-
 
 
 //arr.find(item.id) === taskId
