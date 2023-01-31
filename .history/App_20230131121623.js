@@ -44,7 +44,7 @@ function displayTodo(){
     });
 };
 
-todo.addEventListener('change',function(event){
+closeLI.addEventListener('click',function(event){
     console.log(event.target)
 
 

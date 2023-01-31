@@ -1,18 +1,12 @@
 let addTodo = document.querySelector('#todo'),
     btn = document.querySelector('#btn'),
-    todo = document.querySelector('#myUL'),
-    closeLI = document.querySelector('#closeLi')
-    ;
+    todo = document.querySelector('#myUL');
 
 
 let arr = [];
 
 btn.addEventListener('click',createTodo)
-addTodo.addEventListener('keyup', function(event){
-    if(event.code == 'Enter'){
-        createTodo();
-    }
-});
+addTodo.addEventListener('keyup', createTodo)
 
 function createTodo(){
 let task = addTodo.value.trim();
@@ -22,14 +16,13 @@ if (task == ""){
 }else{
 let newTodo = {
     todo: task,
-    checked: false
+    checked: false,
+    important: false
 };
 arr.push(newTodo)
 displayTodo();
-addTodo.value = '';
 //console.log(arr)
 }};
-
 function displayTodo(){
     let displayMessage = '';
     arr.forEach(function(item, i){
@@ -37,16 +30,15 @@ function displayTodo(){
     <li>
     <input type='checkbox' id='item_${i}'>
     <label for='item_${i}'>${item.todo}</label>
-    <span id="closeLi" for ='item_${i}'>&times;</span>
     </li>`;
 
     todo.innerHTML = displayMessage;
     });
 };
 
-todo.addEventListener('change',function(event){
-    console.log(event.target)
-
-
-});
-    
+function deleteTodo(){
+    arr.forEach(function(item, i){
+        arr.splice(i,1);
+        displayMessage();
+    });
+};

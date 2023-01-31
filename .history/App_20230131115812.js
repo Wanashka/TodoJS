@@ -32,21 +32,23 @@ addTodo.value = '';
 
 function displayTodo(){
     let displayMessage = '';
-    arr.forEach(function(item, i){
+    arr.forEach(function(i){
     displayMessage += `
     <li>
     <input type='checkbox' id='item_${i}'>
     <label for='item_${i}'>${item.todo}</label>
-    <span id="closeLi" for ='item_${i}'>&times;</span>
+    <span id="closeLi">&times;</span>
     </li>`;
 
     todo.innerHTML = displayMessage;
     });
 };
 
-todo.addEventListener('change',function(event){
-    console.log(event.target)
+closeLI.addEventListener('click',function(event){
+console.log(event.target.closeLI)
+    // arr.forEach(function(item, i){
+    //     arr.splice(i,1)});
 
-
+    //     displayMessage();
 });
     

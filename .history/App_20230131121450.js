@@ -37,14 +37,14 @@ function displayTodo(){
     <li>
     <input type='checkbox' id='item_${i}'>
     <label for='item_${i}'>${item.todo}</label>
-    <span id="closeLi" for ='item_${i}'>&times;</span>
+    <span id="closeLi for ='item_${i}'">&times;</span>
     </li>`;
 
     todo.innerHTML = displayMessage;
     });
 };
 
-todo.addEventListener('change',function(event){
+closeLI.addEventListener('click',function(event){
     console.log(event.target)
 
 
