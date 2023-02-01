@@ -12,27 +12,19 @@ let addTodo = document.querySelector('#todo'),
 
 let arr = [];
 
-buttonAll.addEventListener('click', () => {render(arr)})
-buttonActive.addEventListener('click',renderActive)
+buttonAll.addEventListener('click', render, add)
+// buttonActive.addEventListener('click',)
 buttonCompleted.addEventListener('click', renderCompleted)
 
 function renderCompleted(){
-    arr.forEach(function(item){
-        arr_completed = arr.filter((item)=>item.checked === true);
+arr.forEach(function(item){
+    arr_completed = arr.filter((item)=>item.checked === true);
     render(arr_completed);
-    });
-}
-
-function renderActive(){
-    arr.forEach(function(item){
-        arr_active = arr.filter((item)=>item.checked !== true);
-        render(arr_active);
-    });
+});
 
 }
 
 btn.addEventListener('click',createTodo)
-
 addTodo.addEventListener('keyup', function(event){
     if(event.key == 'Enter'){
         createTodo();
@@ -55,6 +47,7 @@ arr.push(newTodo)
 
 render(arr);
 addTodo.value = '';
+//console.log(arr)
 }};
 
 function render(arr){
@@ -64,34 +57,22 @@ function render(arr){
     displayMessage += `
     <li id=${item.id}>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
+    <label for='${item.id}'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
+
     });
     todo.innerHTML = displayMessage;
 };
 
 todo.addEventListener('click', deleteTask)
-todo.addEventListener('dblclick', editTask)
-
-function editTask(event){
-    const taskId = event.target.parentNode.id
-    arr.forEach(function(item){
-    if(event.target.classList.contains("input-todo")){
-        if(item.id === taskId){
-    console.log(todo)
-    }
-    }
-})
-}
-
 function deleteTask(event){
     const taskId = event.target.parentNode.id
     if(event.target.classList.contains("button-delete")){
         arr = arr.filter((item)=>item.id !== taskId)
         render(arr);
-    }
-    else if(event.target.classList.contains("checkbox")){
+}
+    if(event.target.classList.contains("checkbox")){
          const task = arr.find((item)=>item.id === taskId)
          task.checked = !task.checked;
          console.log(arr)
@@ -105,7 +86,7 @@ function completedAllTodo(event){
     })
     console.log(checkboxAll.checked)
     console.log(arr)
-    render(arr)
+    render()
 }
 
 deleteAll.addEventListener('click', deleteAllCompleted)
@@ -114,5 +95,13 @@ function deleteAllCompleted(){
     arr.forEach(function(item){
         arr = arr.filter((item)=>item.checked !== true)
     });
-    render(arr)
+    render()
 }
+
+
+
+
+//arr.find(item.id) === taskId
+// checkbox
+
+    

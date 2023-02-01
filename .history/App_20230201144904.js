@@ -64,9 +64,10 @@ function render(arr){
     displayMessage += `
     <li id=${item.id}>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
+    <label for='${item.id}' class='input-todo'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
+
     });
     todo.innerHTML = displayMessage;
 };
@@ -75,14 +76,9 @@ todo.addEventListener('click', deleteTask)
 todo.addEventListener('dblclick', editTask)
 
 function editTask(event){
-    const taskId = event.target.parentNode.id
-    arr.forEach(function(item){
     if(event.target.classList.contains("input-todo")){
-        if(item.id === taskId){
-    console.log(todo)
+        console.log("!!!")
     }
-    }
-})
 }
 
 function deleteTask(event){
@@ -116,3 +112,6 @@ function deleteAllCompleted(){
     });
     render(arr)
 }
+
+//arr.find(item.id) === taskId
+// checkbox

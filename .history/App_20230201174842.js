@@ -116,3 +116,6 @@ function deleteAllCompleted(){
     });
     render(arr)
 }
+
+//arr.find(item.id) === taskId
+// checkbox

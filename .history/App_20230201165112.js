@@ -79,7 +79,13 @@ function editTask(event){
     arr.forEach(function(item){
     if(event.target.classList.contains("input-todo")){
         if(item.id === taskId){
-    console.log(todo)
+    todo.innerHTML = `
+    <i id=${item.id}>
+    <input type='checkbox' ${completed} class='checkbox'>
+    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
+    <button class='button-delete'>X</button>
+    </li>>
+    `    
     }
     }
 })
@@ -116,3 +122,6 @@ function deleteAllCompleted(){
     });
     render(arr)
 }
+
+//arr.find(item.id) === taskId
+// checkbox

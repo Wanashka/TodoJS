@@ -9,8 +9,8 @@ let addTodo = document.querySelector('#todo'),
     buttonCompleted = document.querySelector('.button-completed')
     ;
 
-
-let arr = [];
+    let displayMessage = '';
+    let arr = [];
 
 buttonAll.addEventListener('click', () => {render(arr)})
 buttonActive.addEventListener('click',renderActive)
@@ -58,15 +58,15 @@ addTodo.value = '';
 }};
 
 function render(arr){
-    let displayMessage = '';
     arr.forEach(function(item){
     const completed = item.checked? "checked" : ""
     displayMessage += `
     <li id=${item.id}>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
+    <label for='${item.id}' class='input-todo'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
+
     });
     todo.innerHTML = displayMessage;
 };
@@ -79,7 +79,9 @@ function editTask(event){
     arr.forEach(function(item){
     if(event.target.classList.contains("input-todo")){
         if(item.id === taskId){
-    console.log(todo)
+        console.log(event.target.parentNode)
+        // todo.innerHTML = `
+        // <input type='text' value='${item.todo}'> `;
     }
     }
 })
@@ -116,3 +118,6 @@ function deleteAllCompleted(){
     });
     render(arr)
 }
+
+//arr.find(item.id) === taskId
+// checkbox

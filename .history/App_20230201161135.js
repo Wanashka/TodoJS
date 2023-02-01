@@ -64,9 +64,10 @@ function render(arr){
     displayMessage += `
     <li id=${item.id}>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
+    <label for='${item.id}' class='input-todo'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
+
     });
     todo.innerHTML = displayMessage;
 };
@@ -79,7 +80,9 @@ function editTask(event){
     arr.forEach(function(item){
     if(event.target.classList.contains("input-todo")){
         if(item.id === taskId){
-    console.log(todo)
+        console.log(event.target.parentNode.id)
+        todo.querySelector('')
+        // <input type='text' value='${item.todo}'> `;
     }
     }
 })
@@ -89,13 +92,13 @@ function deleteTask(event){
     const taskId = event.target.parentNode.id
     if(event.target.classList.contains("button-delete")){
         arr = arr.filter((item)=>item.id !== taskId)
-        render(arr);
+        render();
     }
     else if(event.target.classList.contains("checkbox")){
          const task = arr.find((item)=>item.id === taskId)
          task.checked = !task.checked;
          console.log(arr)
-         render(arr);
+         render();
     }
 }
 
@@ -116,3 +119,6 @@ function deleteAllCompleted(){
     });
     render(arr)
 }
+
+//arr.find(item.id) === taskId
+// checkbox
