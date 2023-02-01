@@ -9,19 +9,24 @@ let addTodo = document.querySelector('#todo'),
     buttonCompleted = document.querySelector('.button-completed')
     ;
 
-
-let arr = [];
+    let displayMessage = '';
+    let arr = [];
 
 buttonAll.addEventListener('click', render)
 // buttonActive.addEventListener('click',)
 buttonCompleted.addEventListener('click', renderCompleted)
 
 function renderCompleted(){
-arr.forEach(function(item){
-    arr = arr.filter((item)=>item.checked === true);
-    render();
-});
-
+    arr.forEach(function(item){
+        if(item.checked === true){
+            displayMessage += `
+    <li id=${item.id}>
+    <input type='checkbox' ${'checked'} class='checkbox'>
+    <label for='${item.id}'>${item.todo}</label>
+    <button class='button-delete'>X</button>
+    </li>`;
+        }
+    });
 }
 
 btn.addEventListener('click',createTodo)
@@ -51,7 +56,6 @@ addTodo.value = '';
 }};
 
 function render(){
-    let displayMessage = '';
     arr.forEach(function(item){
     const completed = item.checked? "checked" : ""
     displayMessage += `

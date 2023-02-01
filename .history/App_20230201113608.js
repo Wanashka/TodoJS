@@ -3,26 +3,11 @@ let addTodo = document.querySelector('#todo'),
     todo = document.querySelector('#myUL'),
     closeLI = document.querySelector('#closeLi'),
     checkboxAll = document.querySelector('.checkbox-all'),
-    deleteAll = document.querySelector('.delete-all'),
-    buttonAll = document.querySelector('.button-all'),
-    buttonActive = document.querySelector('.button-active'),
-    buttonCompleted = document.querySelector('.button-completed')
+    deleteAll = document.querySelector('.delete-all')
     ;
 
 
 let arr = [];
-
-buttonAll.addEventListener('click', render)
-// buttonActive.addEventListener('click',)
-buttonCompleted.addEventListener('click', renderCompleted)
-
-function renderCompleted(){
-arr.forEach(function(item){
-    arr = arr.filter((item)=>item.checked === true);
-    render();
-});
-
-}
 
 btn.addEventListener('click',createTodo)
 addTodo.addEventListener('keyup', function(event){
@@ -31,7 +16,7 @@ addTodo.addEventListener('keyup', function(event){
     }
 });
 
-checkboxAll.addEventListener('click',completedAllTodo)
+checkboxAll.addEventListener('click',complitedAllTodo)
 
 function createTodo(){
 let text = addTodo.value.trim().replace(/\s+/g, ' ');
@@ -53,10 +38,10 @@ addTodo.value = '';
 function render(){
     let displayMessage = '';
     arr.forEach(function(item){
-    const completed = item.checked? "checked" : ""
+    const complited = item.checked? "checked" : ""
     displayMessage += `
     <li id=${item.id}>
-    <input type='checkbox' ${completed} class='checkbox'>
+    <input type='checkbox' ${complited} class='checkbox'>
     <label for='${item.id}'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
@@ -80,7 +65,7 @@ function deleteTask(event){
     }
 }
 
-function completedAllTodo(event){
+function complitedAllTodo(event){
     arr.forEach(function(item){
         item.checked = checkboxAll.checked
     })
@@ -92,9 +77,16 @@ function completedAllTodo(event){
 deleteAll.addEventListener('click', deleteAllCompleted)
 
 function deleteAllCompleted(){
-    arr.forEach(function(item){
-        arr = arr.filter((item)=>item.checked !== true)
+    arr.forEach(function(item, i){
+        if(item.checked === true){
+            // console.log("id элемента из массива",typeof item.id)
+            // console.log( i)
+            // console.log(item.checked)
+            console.log(item.todo)
+            //arr.splice(1, i)
+        }
     });
+    console.log(arr)
     render()
 }
 

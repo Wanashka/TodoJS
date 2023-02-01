@@ -19,7 +19,6 @@ buttonCompleted.addEventListener('click', renderCompleted)
 function renderCompleted(){
 arr.forEach(function(item){
     arr = arr.filter((item)=>item.checked === true);
-    render();
 });
 
 }

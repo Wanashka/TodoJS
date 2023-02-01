@@ -14,15 +14,9 @@ let arr = [];
 
 buttonAll.addEventListener('click', render)
 // buttonActive.addEventListener('click',)
-buttonCompleted.addEventListener('click', renderCompleted)
+// buttonCompleted.addEventListener('click',)
 
-function renderCompleted(){
-arr.forEach(function(item){
-    arr = arr.filter((item)=>item.checked === true);
-    render();
-});
 
-}
 
 btn.addEventListener('click',createTodo)
 addTodo.addEventListener('keyup', function(event){

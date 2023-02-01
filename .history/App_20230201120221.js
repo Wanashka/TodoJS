@@ -13,16 +13,10 @@ let addTodo = document.querySelector('#todo'),
 let arr = [];
 
 buttonAll.addEventListener('click', render)
-// buttonActive.addEventListener('click',)
-buttonCompleted.addEventListener('click', renderCompleted)
+buttonActive.addEventListener('click',)
+buttonCompleted.addEventListener('click',)
 
-function renderCompleted(){
-arr.forEach(function(item){
-    arr = arr.filter((item)=>item.checked === true);
-    render();
-});
 
-}
 
 btn.addEventListener('click',createTodo)
 addTodo.addEventListener('keyup', function(event){
@@ -31,7 +25,7 @@ addTodo.addEventListener('keyup', function(event){
     }
 });
 
-checkboxAll.addEventListener('click',completedAllTodo)
+checkboxAll.addEventListener('click',complitedAllTodo)
 
 function createTodo(){
 let text = addTodo.value.trim().replace(/\s+/g, ' ');
@@ -53,10 +47,10 @@ addTodo.value = '';
 function render(){
     let displayMessage = '';
     arr.forEach(function(item){
-    const completed = item.checked? "checked" : ""
+    const complited = item.checked? "checked" : ""
     displayMessage += `
     <li id=${item.id}>
-    <input type='checkbox' ${completed} class='checkbox'>
+    <input type='checkbox' ${complited} class='checkbox'>
     <label for='${item.id}'>${item.todo}</label>
     <button class='button-delete'>X</button>
     </li>`;
@@ -80,7 +74,7 @@ function deleteTask(event){
     }
 }
 
-function completedAllTodo(event){
+function complitedAllTodo(event){
     arr.forEach(function(item){
         item.checked = checkboxAll.checked
     })
