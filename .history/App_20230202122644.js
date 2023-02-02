@@ -75,20 +75,9 @@ todo.addEventListener('click', deleteTask)
 todo.addEventListener('dblclick', editTask)
 
 function editTask(event){
-    const taskToEdit = event.target;
-    const inputTask = document.createElement('input');
-    inputTask.classList.add('input-edit-task');
-    taskToEdit.replaceWith(inputTask);
-
-    const inputEditTask = document.querySelector('.input-edit-task');
-    inputEditTask.addEventListener('keyup', function(event){
-        if(event.key == 'Enter'){
-            console.log("Отрисовка массива с новыми данными");
-            render(arr)
-
-        }
-    });
-
+    //const taskToEdit = event.target;
+    console.log(event.target)
+    //document = createElement('input');
     //event.target.textContent.hidden;
     // const taskId = event.target.parentNode.id
     // arr.forEach(function(item){

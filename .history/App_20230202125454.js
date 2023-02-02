@@ -84,7 +84,6 @@ function editTask(event){
     inputEditTask.addEventListener('keyup', function(event){
         if(event.key == 'Enter'){
             console.log("Отрисовка массива с новыми данными");
-            render(arr)
 
         }
     });

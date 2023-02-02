@@ -62,7 +62,7 @@ function render(arr){
     arr.forEach(function(item){
     const completed = item.checked? "checked" : ""
     displayMessage += `
-    <li id=${item.id} class='task-li'>
+    <li id=${item.id}>
     <input type='checkbox' ${completed} class='checkbox'>
     <label for='${item.id}' class='input-todo'> ${item.todo}</label>
     <button class='button-delete'>X</button>
@@ -75,34 +75,15 @@ todo.addEventListener('click', deleteTask)
 todo.addEventListener('dblclick', editTask)
 
 function editTask(event){
-    const taskToEdit = event.target;
-    const inputTask = document.createElement('input');
-    inputTask.classList.add('input-edit-task');
-    taskToEdit.replaceWith(inputTask);
-
-    const inputEditTask = document.querySelector('.input-edit-task');
-    inputEditTask.addEventListener('keyup', function(event){
-        if(event.key == 'Enter'){
-            console.log("Отрисовка массива с новыми данными");
-            render(arr)
-
-        }
-    });
-
-    //event.target.textContent.hidden;
-    // const taskId = event.target.parentNode.id
-    // arr.forEach(function(item){
-    // if(event.target.classList.contains("input-todo")){
-    //     if(item.id === taskId){
-    //todo.querySelector(".input-todo").hidden = true;
-    // const inputTask = document.createElement('input')
-    // todo.querySelector(".input-todo").replaceWith(inputTask)
-    //console.log( todo.querySelector(""))
+    const taskId = event.target.parentNode.id
+    arr.forEach(function(item){
+    if(event.target.classList.contains("input-todo")){
+        if(item.id === taskId){
+    console.log(todo.querySelector(".input-todo").hidden)
+    }
+    }
+})
 }
-//     }
-//     }
-// })
-// }
 
 function deleteTask(event){
     const taskId = event.target.parentNode.id
