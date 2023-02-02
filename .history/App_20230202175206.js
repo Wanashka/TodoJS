@@ -12,7 +12,7 @@ const addTodo = document.querySelector('#todo'),
 
 let arr = [];
 
-buttonFilter.addEventListener('click', filterTasks)
+buttonFilter.addEsventListener('click', filterTasks)
 
 function filterTasks(event) {
     let arrFilter = [];

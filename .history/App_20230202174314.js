@@ -46,9 +46,7 @@ checkboxAll.addEventListener('click', completedAllTodo)
 
 function createTodo() {
     const text = valid(addTodo.value);
-        if(text === ""){
-            return
-        }
+        
         let newTodo = {
             id: String(Date.now()),
             todo: text,
@@ -61,7 +59,12 @@ function createTodo() {
     };
 function valid(value){
     const text = value.trim().replace(/\s+/g, ' ');
-    return(text);
+    if(text === ""){
+        alert("Нельзя")
+    }
+    else{
+        return(text)
+    }
 }
 
 function render(arr) {
@@ -104,11 +107,8 @@ function editTask(event) {
             }
         }
         function save() {
-            const text = valid(inputTask.value)
-            if(text === ""){
-                render(arr)
-            }
-            task.todo = text;
+            const text = valid
+            task.todo = inputTask.value;
             render(arr)
         };
 

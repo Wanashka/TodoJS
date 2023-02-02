@@ -45,10 +45,10 @@ addTodo.addEventListener('keyup', function (event) {
 checkboxAll.addEventListener('click', completedAllTodo)
 
 function createTodo() {
-    const text = valid(addTodo.value);
-        if(text === ""){
-            return
-        }
+    let text = addTodo.value.trim().replace(/\s+/g, ' ');
+    if (text == "") {
+        alert("Напишите задачу")
+    } else {
         let newTodo = {
             id: String(Date.now()),
             todo: text,
@@ -58,11 +58,8 @@ function createTodo() {
 
         render(arr);
         addTodo.value = '';
-    };
-function valid(value){
-    const text = value.trim().replace(/\s+/g, ' ');
-    return(text);
-}
+    }
+};
 
 function render(arr) {
     let displayMessage = '';
@@ -104,11 +101,7 @@ function editTask(event) {
             }
         }
         function save() {
-            const text = valid(inputTask.value)
-            if(text === ""){
-                render(arr)
-            }
-            task.todo = text;
+            task.todo = inputTask.value;
             render(arr)
         };
 
@@ -143,7 +136,9 @@ function completedAllTodo(event) {
 deleteAll.addEventListener('click', deleteAllCompleted)
 
 function deleteAllCompleted() {
+    arr.forEach(function (item) {
         arr = arr.filter((item) => item.checked !== true)
+    });
     render(arr)
 }
 
@@ -151,6 +146,7 @@ function counterTodo() {
     let counterAll = arr.length
     let counterCompleted = 0;
     let counterActive = 0;
+    console.log(arr.length)
     arr.forEach(function (item) {
         if (item.checked === true) {
             counterCompleted += 1;

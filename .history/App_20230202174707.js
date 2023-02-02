@@ -61,7 +61,13 @@ function createTodo() {
     };
 function valid(value){
     const text = value.trim().replace(/\s+/g, ' ');
-    return(text);
+    if(text === ""){
+        alert("Нельзя")
+        render(arr)
+    }
+    else{
+        return(text)
+    }
 }
 
 function render(arr) {
@@ -105,9 +111,6 @@ function editTask(event) {
         }
         function save() {
             const text = valid(inputTask.value)
-            if(text === ""){
-                render(arr)
-            }
             task.todo = text;
             render(arr)
         };

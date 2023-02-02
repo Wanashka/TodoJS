@@ -105,9 +105,6 @@ function editTask(event) {
         }
         function save() {
             const text = valid(inputTask.value)
-            if(text === ""){
-                render(arr)
-            }
             task.todo = text;
             render(arr)
         };
