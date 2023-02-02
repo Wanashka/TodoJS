@@ -142,13 +142,22 @@ function counterTodo(){
     console.log(arr.length)
     arr.forEach(function(item){
         if(item.checked === true){
+            console.log("Работает")
             counterCompleted += 1;
         }
         else{
             counterActive += 1;
         }
+        
     });
+    console.log(counterActive)
+    console.log(counterCompleted)
+
     buttonAll.textContent = `All (${counterAll})`;
-    buttonCompleted.textContent = `Completed (${counterCompleted})`
-    buttonActive.textContent = `Active (${counterActive})`
+    //const listAll = document.createElement('p');
+    // listAll.innerHTML = counter;
+    // buttonAll.after(listAll);
+    // listAll.classList.add("list-length-all");
+    // document.querySelector('list-length-all') = counterAll
+    // console.log(arr.length)
 }

@@ -64,12 +64,11 @@ function render(arr){
     displayMessage += `
     <li id=${item.id} class='task-li'>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo} </label>
+    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
     <button class='button-delete'>✕</button>
     </li>`;
     });
     todo.innerHTML = displayMessage;
-    counterTodo();
 };
 
 todo.addEventListener('click', deleteTask)
@@ -133,22 +132,4 @@ function deleteAllCompleted(){
         arr = arr.filter((item)=>item.checked !== true)
     });
     render(arr)
-}
-
-function counterTodo(){
-    let counterAll = arr.length
-    let counterCompleted = 0;
-    let counterActive = 0;
-    console.log(arr.length)
-    arr.forEach(function(item){
-        if(item.checked === true){
-            counterCompleted += 1;
-        }
-        else{
-            counterActive += 1;
-        }
-    });
-    buttonAll.textContent = `All (${counterAll})`;
-    buttonCompleted.textContent = `Completed (${counterCompleted})`
-    buttonActive.textContent = `Active (${counterActive})`
 }

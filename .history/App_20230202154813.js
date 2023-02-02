@@ -64,7 +64,7 @@ function render(arr){
     displayMessage += `
     <li id=${item.id} class='task-li'>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo} </label>
+    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
     <button class='button-delete'>✕</button>
     </li>`;
     });
@@ -142,13 +142,21 @@ function counterTodo(){
     console.log(arr.length)
     arr.forEach(function(item){
         if(item.checked === true){
+            console.log("Работает")
             counterCompleted += 1;
         }
         else{
             counterActive += 1;
         }
+        
     });
-    buttonAll.textContent = `All (${counterAll})`;
-    buttonCompleted.textContent = `Completed (${counterCompleted})`
-    buttonActive.textContent = `Active (${counterActive})`
+    console.log(counterActive)
+    console.log(counterCompleted)
+    buttonAll.innerHTML = counterAll;
+    // const listAll = document.createElement('p');
+    listAll.append = counterAll;
+    // buttonAll.after(listAll);
+    // listAll.classList.add("list-length-all");
+    // document.querySelector('list-length-all') = counterAll
+    // console.log(arr.length)
 }

@@ -142,13 +142,18 @@ function counterTodo(){
     console.log(arr.length)
     arr.forEach(function(item){
         if(item.checked === true){
+            console.log("Работает")
             counterCompleted += 1;
         }
         else{
             counterActive += 1;
         }
+        
     });
+    console.log(counterActive)
+    console.log(counterCompleted)
+
     buttonAll.textContent = `All (${counterAll})`;
-    buttonCompleted.textContent = `Completed (${counterCompleted})`
-    buttonActive.textContent = `Active (${counterActive})`
+    buttonCompleted.textContent = `Completed (${counterAll})`
+    buttonActive.textContent = `Active (${counterAll})`
 }

@@ -64,12 +64,11 @@ function render(arr){
     displayMessage += `
     <li id=${item.id} class='task-li'>
     <input type='checkbox' ${completed} class='checkbox'>
-    <label for='${item.id}' class='input-todo'> ${item.todo} </label>
-    <button class='button-delete'>✕</button>
+    <label for='${item.id}' class='input-todo'> ${item.todo}</label>
+    <button class='button-delete'>X</button>
     </li>`;
     });
     todo.innerHTML = displayMessage;
-    counterTodo();
 };
 
 todo.addEventListener('click', deleteTask)
@@ -77,31 +76,39 @@ todo.addEventListener('dblclick', editTask)
 
 function editTask(event){
     const taskToEdit = event.target;
-    const taskId = event.target.parentNode.id;
+    const taskId = event.target.parentNode.id
     const inputTask = document.createElement('input');
     inputTask.classList.add('input-edit-task');
     taskToEdit.replaceWith(inputTask);
-    const task = arr.find((item)=>item.id === taskId);
+    const task = arr.find((item)=>item.id === taskId)
+    inputEditTask.value = task.todo
     const inputEditTask = document.querySelector('.input-edit-task');
-    inputEditTask.value = task.todo;
-    inputEditTask.focus();
-    
-    inputEditTask.addEventListener('keyup', function(event){
-        if(event.key == 'Escape'){
-            render(arr)        
-        }
-    });
+    console.log(inputEditTask.value)
     inputEditTask.addEventListener('blur', ()=> {
         task.todo = inputEditTask.value;
         render(arr)
-    });
+    })
     inputEditTask.addEventListener('keyup', function(event){
         if(event.key == 'Enter'){
             task.todo = inputEditTask.value;
             render(arr)        
         }
     });
+
+    //event.target.textContent.hidden;
+    // const taskId = event.target.parentNode.id
+    // arr.forEach(function(item){
+    // if(event.target.classList.contains("input-todo")){
+    //     if(item.id === taskId){
+    //todo.querySelector(".input-todo").hidden = true;
+    // const inputTask = document.createElement('input')
+    // todo.querySelector(".input-todo").replaceWith(inputTask)
+    //console.log( todo.querySelector(""))
 }
+//     }
+//     }
+// })
+// }
 
 function deleteTask(event){
     const taskId = event.target.parentNode.id
@@ -133,22 +140,4 @@ function deleteAllCompleted(){
         arr = arr.filter((item)=>item.checked !== true)
     });
     render(arr)
-}
-
-function counterTodo(){
-    let counterAll = arr.length
-    let counterCompleted = 0;
-    let counterActive = 0;
-    console.log(arr.length)
-    arr.forEach(function(item){
-        if(item.checked === true){
-            counterCompleted += 1;
-        }
-        else{
-            counterActive += 1;
-        }
-    });
-    buttonAll.textContent = `All (${counterAll})`;
-    buttonCompleted.textContent = `Completed (${counterCompleted})`
-    buttonActive.textContent = `Active (${counterActive})`
 }
