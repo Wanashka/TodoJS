@@ -41,6 +41,18 @@ function render(arr) {
 }
 
 function filterTasks(event) {
+  // let arrFilter = [];
+  // if (event.target.classList.contains('button-all')) {
+  //   render(arrTodo);
+  // }
+  // if (event.target.classList.contains('button-completed')) {
+  //   arrFilter = arrTodo.filter((item) => item.checked === true);
+  //   render(arrFilter);
+  // }
+  // if (event.target.classList.contains('button-active')) {
+  //   arrFilter = arrTodo.filter((item) => item.checked !== true);
+  //   render(arrFilter);
+  // }
   buttonAll.classList.remove('button-filter-on');
   buttonCompleted.classList.remove('button-filter-on');
   buttonActive.classList.remove('button-filter-on');

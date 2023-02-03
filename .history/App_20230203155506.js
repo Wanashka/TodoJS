@@ -41,6 +41,18 @@ function render(arr) {
 }
 
 function filterTasks(event) {
+  // let arrFilter = [];
+  // if (event.target.classList.contains('button-all')) {
+  //   render(arrTodo);
+  // }
+  // if (event.target.classList.contains('button-completed')) {
+  //   arrFilter = arrTodo.filter((item) => item.checked === true);
+  //   render(arrFilter);
+  // }
+  // if (event.target.classList.contains('button-active')) {
+  //   arrFilter = arrTodo.filter((item) => item.checked !== true);
+  //   render(arrFilter);
+  // }
   buttonAll.classList.remove('button-filter-on');
   buttonCompleted.classList.remove('button-filter-on');
   buttonActive.classList.remove('button-filter-on');
@@ -130,7 +142,7 @@ function deleteCheckTask(event) {
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    test(arrTodo);
+    te(arrTodo);
   }
 }
 
@@ -143,7 +155,8 @@ function completedAllTodo() {
 
 function deleteAllCompleted() {
   arrTodo = arrTodo.filter((item) => item.checked !== true);
-  test(arrTodo);
+  console.log(arr);
+  // test(arrTodo);
 }
 
 deleteAll.addEventListener('click', deleteAllCompleted);

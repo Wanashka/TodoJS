@@ -7,7 +7,7 @@ const buttonAll = document.querySelector('.button-all');
 const buttonActive = document.querySelector('.button-active');
 const buttonCompleted = document.querySelector('.button-completed');
 const buttonFilter = document.querySelector('.button-filter');
-let arrTodo = [];
+const arrTodo = [];
 
 function counterTodo() {
   const counterAll = arrTodo.length;
@@ -41,29 +41,28 @@ function render(arr) {
 }
 
 function filterTasks(event) {
+  let arrFilter = [];
+  if (event.target.classList.contains('button-all')) {
+    render(arrTodo);
+  }
+  if (event.target.classList.contains('button-completed')) {
+    arrFilter = arrTodo.filter((item) => item.checked === true);
+    render(arrFilter);
+  }
+  if (event.target.classList.contains('button-active')) {
+    arrFilter = arrTodo.filter((item) => item.checked !== true);
+    render(arrFilter);
+  }
   buttonAll.classList.remove('button-filter-on');
   buttonCompleted.classList.remove('button-filter-on');
   buttonActive.classList.remove('button-filter-on');
+  // event.target.classList.remove('button-filter-on');
   event.target.classList.add('button-filter-on');
-  test(arrTodo);
 }
 
-function test(arr) {
-  let arrFilter = [];
-  switch (true) {
-    case buttonAll.classList.contains('button-filter-on'):
-      render(arr);
-      break;
-    case buttonActive.classList.contains('button-filter-on'):
-      arrFilter = arr.filter((item) => item.checked !== true);
-      render(arrFilter);
-      break;
-    case buttonCompleted.classList.contains('button-filter-on'):
-      arrFilter = arr.filter((item) => item.checked === true);
-      render(arrFilter);
-      break;
-    default:
-      render(arr);
+function test(){
+  switch(buttonFilter.classList.contains('button-filter-on')){
+    case 
   }
 }
 function valid(value) {
@@ -83,7 +82,7 @@ function createTodo() {
       checked: false,
     };
     arrTodo.push(newTodo);
-    test(arrTodo);
+    render(arrTodo);
     addTodo.value = '';
   }
 }
@@ -95,16 +94,16 @@ function editTask(event) {
   function save() {
     const text = valid(inputTask.value);
     if (text === '') {
-      test(arrTodo);
+      render(arrTodo);
     } else {
       task.todo = text;
-      test(arrTodo);
+      render(arrTodo);
     }
   }
   function keyup(event) {
     if (event.key === 'Escape') {
       inputTask.removeEventListener('blur', save);
-      test(arrTodo);
+      render(arrTodo);
     }
     if (event.key === 'Enter') {
       save();
@@ -125,12 +124,12 @@ function editTask(event) {
 function deleteCheckTask(event) {
   const taskId = event.target.parentNode.id;
   if (event.target.classList.contains('button-delete')) {
-    arrTodo = arrTodo.filter((item) => item.id !== taskId);
-    test(arrTodo);
+    const arr = arrTodo.filter((item) => item.id !== taskId);
+    render(arr);
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    test(arrTodo);
+    render(arrTodo);
   }
 }
 
@@ -138,12 +137,12 @@ function completedAllTodo() {
   arrTodo.forEach((item) => {
     item.checked = checkboxAll.checked;
   });
-  test(arrTodo);
+  render(arrTodo);
 }
 
 function deleteAllCompleted() {
-  arrTodo = arrTodo.filter((item) => item.checked !== true);
-  test(arrTodo);
+  const arr = arrTodo.filter((item) => item.checked !== true);
+  render(arr);
 }
 
 deleteAll.addEventListener('click', deleteAllCompleted);
