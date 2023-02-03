@@ -53,7 +53,6 @@ function filterTasks(event) {
     arrFilter = arrTodo.filter((item) => item.checked !== true);
     render(arrFilter);
   }
-  event.target.classList.add('button-filter-on');
 }
 function valid(value) {
   const text = value.trim().replace(/\s+/g, ' ');
@@ -63,18 +62,16 @@ function valid(value) {
 function createTodo() {
   const text = valid(addTodo.value);
   if (text === '') {
-    addTodo.placeholder = 'Enter a task';
-    addTodo.focus();
-  } else {
-    const newTodo = {
-      id: String(Date.now()),
-      todo: text,
-      checked: false,
-    };
-    arrTodo.push(newTodo);
-    render(arrTodo);
-    addTodo.value = '';
+    return;
   }
+  const newTodo = {
+    id: String(Date.now()),
+    todo: text,
+    checked: false,
+  };
+  arrTodo.push(newTodo);
+  render(arrTodo);
+  addTodo.value = '';
 }
 
 function editTask(event) {
@@ -85,10 +82,9 @@ function editTask(event) {
     const text = valid(inputTask.value);
     if (text === '') {
       render(arrTodo);
-    } else {
-      task.todo = text;
-      render(arrTodo);
     }
+    task.todo = text;
+    render(arrTodo);
   }
   function keyup(event) {
     if (event.key === 'Escape') {

@@ -63,8 +63,8 @@ function valid(value) {
 function createTodo() {
   const text = valid(addTodo.value);
   if (text === '') {
-    addTodo.placeholder = 'Enter a task';
-    addTodo.focus();
+    addTodo.placeholder = 'Enter Task';
+    add
   } else {
     const newTodo = {
       id: String(Date.now()),

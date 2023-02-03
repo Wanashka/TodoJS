@@ -53,7 +53,6 @@ function filterTasks(event) {
     arrFilter = arrTodo.filter((item) => item.checked !== true);
     render(arrFilter);
   }
-  event.target.classList.add('button-filter-on');
 }
 function valid(value) {
   const text = value.trim().replace(/\s+/g, ' ');
@@ -63,48 +62,46 @@ function valid(value) {
 function createTodo() {
   const text = valid(addTodo.value);
   if (text === '') {
-    addTodo.placeholder = 'Enter a task';
-    addTodo.focus();
-  } else {
-    const newTodo = {
-      id: String(Date.now()),
-      todo: text,
-      checked: false,
-    };
-    arrTodo.push(newTodo);
-    render(arrTodo);
-    addTodo.value = '';
+    return;
   }
+  const newTodo = {
+    id: String(Date.now()),
+    todo: text,
+    checked: false,
+  };
+  arrTodo.push(newTodo);
+  render(arrTodo);
+  addTodo.value = '';
 }
 
 function editTask(event) {
-  const inputTask = document.createElement('input');
-  const taskId = event.target.parentNode.id;
-  const task = arrTodo.find((item) => item.id === taskId);
-  function save() {
-    const text = valid(inputTask.value);
-    if (text === '') {
-      render(arrTodo);
-    } else {
+  if (event.target.classList.contains('input-todo')) {
+    const taskToEdit = event.target;
+    const taskId = event.target.parentNode.id;
+    const inputTask = document.createElement('input');
+    inputTask.classList.add('input-edit-task');
+    taskToEdit.replaceWith(inputTask);
+    const task = arrTodo.find((item) => item.id === taskId);
+    inputTask.value = task.todo;
+    inputTask.focus();
+
+    function keyup(event) {
+      if (event.key === 'Escape') {
+        inputTask.removeEventListener('blur', save);
+        render(arrTodo);
+      }
+      if (event.key === 'Enter') {
+        save();
+      }
+    }
+    function save() {
+      const text = valid(inputTask.value);
+      if (text === '') {
+        render(arrTodo);
+      }
       task.todo = text;
       render(arrTodo);
     }
-  }
-  function keyup(event) {
-    if (event.key === 'Escape') {
-      inputTask.removeEventListener('blur', save);
-      render(arrTodo);
-    }
-    if (event.key === 'Enter') {
-      save();
-    }
-  }
-  if (event.target.classList.contains('input-todo')) {
-    const taskToEdit = event.target;
-    inputTask.classList.add('input-edit-task');
-    taskToEdit.replaceWith(inputTask);
-    inputTask.value = task.todo;
-    inputTask.focus();
 
     inputTask.addEventListener('keyup', keyup);
     inputTask.addEventListener('blur', save);
@@ -114,28 +111,32 @@ function editTask(event) {
 function deleteCheckTask(event) {
   const taskId = event.target.parentNode.id;
   if (event.target.classList.contains('button-delete')) {
-    const arr = arrTodo.filter((item) => item.id !== taskId);
+    arr = arrTodo.filter((item) => item.id !== taskId);
     render(arr);
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    render(arrTodo);
+    console.log(arrTodo);
+    render(arr);
   }
 }
 
-function completedAllTodo() {
+function completedAllTodo(event) {
   arrTodo.forEach((item) => {
     item.checked = checkboxAll.checked;
   });
+  console.log(checkboxAll.checked);
+  console.log(arrTodo);
   render(arrTodo);
 }
 
+deleteAll.addEventListener('click', deleteAllCompleted);
+
 function deleteAllCompleted() {
-  const arr = arrTodo.filter((item) => item.checked !== true);
+  arr = arrTodo.filter((item) => item.checked !== true);
   render(arr);
 }
 
-deleteAll.addEventListener('click', deleteAllCompleted);
 todo.addEventListener('click', deleteCheckTask);
 todo.addEventListener('dblclick', editTask);
 checkboxAll.addEventListener('click', completedAllTodo);
