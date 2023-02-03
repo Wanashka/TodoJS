@@ -25,12 +25,11 @@ function counterTodo() {
   buttonActive.textContent = `Active (${counterActive})`;
 }
 
-function pagination() {
+function pagination(){
   const arrLength = arrTodo.length;
-  const start = '';
-  const end = '';
-  addTodo.slice(start, end);
 }
+
+
 
 function render(arr) {
   let displayMessage = '';

@@ -25,13 +25,6 @@ function counterTodo() {
   buttonActive.textContent = `Active (${counterActive})`;
 }
 
-function pagination() {
-  const arrLength = arrTodo.length;
-  const start = '';
-  const end = '';
-  addTodo.slice(start, end);
-}
-
 function render(arr) {
   let displayMessage = '';
   arr.forEach((item) => {
@@ -47,9 +40,11 @@ function render(arr) {
   counterTodo();
 }
 
+
+
 function test(arr) {
   let arrFilter = [];
-  switch (buttonFilter.classList.contains('button-filter')) {
+  switch (true) {
     case buttonAll.classList.contains('button-filter-on'):
       render(arr);
       break;
@@ -64,14 +59,6 @@ function test(arr) {
     default:
       render(arr);
   }
-}
-
-function filterTasks(event) {
-  buttonAll.classList.remove('button-filter-on');
-  buttonCompleted.classList.remove('button-filter-on');
-  buttonActive.classList.remove('button-filter-on');
-  event.target.classList.add('button-filter-on');
-  test(arrTodo);
 }
 
 function valid(value) {
@@ -109,12 +96,12 @@ function editTask(event) {
       test(arrTodo);
     }
   }
-  function keyup(e) {
-    if (e.key === 'Escape') {
+  function keyup(event) {
+    if (event.key === 'Escape') {
       inputTask.removeEventListener('blur', save);
       test(arrTodo);
     }
-    if (e.key === 'Enter') {
+    if (event.key === 'Enter') {
       save();
     }
   }

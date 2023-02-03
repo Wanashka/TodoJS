@@ -29,7 +29,7 @@ function pagination() {
   const arrLength = arrTodo.length;
   const start = '';
   const end = '';
-  addTodo.slice(start, end);
+  addTodo.
 }
 
 function render(arr) {

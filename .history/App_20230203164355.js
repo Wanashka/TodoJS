@@ -25,13 +25,6 @@ function counterTodo() {
   buttonActive.textContent = `Active (${counterActive})`;
 }
 
-function pagination() {
-  const arrLength = arrTodo.length;
-  const start = '';
-  const end = '';
-  addTodo.slice(start, end);
-}
-
 function render(arr) {
   let displayMessage = '';
   arr.forEach((item) => {
@@ -48,8 +41,9 @@ function render(arr) {
 }
 
 function test(arr) {
+  console.log(buttonFilter.target.classList);
   let arrFilter = [];
-  switch (buttonFilter.classList.contains('button-filter')) {
+  switch (true) {
     case buttonAll.classList.contains('button-filter-on'):
       render(arr);
       break;

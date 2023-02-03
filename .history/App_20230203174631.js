@@ -27,9 +27,8 @@ function counterTodo() {
 
 function pagination() {
   const arrLength = arrTodo.length;
-  const start = '';
-  const end = '';
-  addTodo.slice(start, end);
+  con
+
 }
 
 function render(arr) {
