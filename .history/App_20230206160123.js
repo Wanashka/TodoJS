@@ -8,7 +8,6 @@ const buttonActive = document.querySelector('.button-active');
 const buttonCompleted = document.querySelector('.button-completed');
 const buttonFilter = document.querySelector('.button-filter');
 const paginationAllButton = document.querySelector('.pagination');
-const { _ } = window;
 let arrTodo = [];
 
 function counterTodo() {
@@ -27,11 +26,11 @@ function counterTodo() {
   buttonActive.textContent = `Active (${counterActive})`;
 }
 
-let page = 1; // текущая страница
+const page = 1; // текущая страница
 const rows = 5;
 
 function render(arr) {
-  buttonDisplayPagination(arr);
+  buttonDisplayPagination();
 
   const start = rows * (page - 1);
   const end = start + rows;
@@ -43,7 +42,7 @@ function render(arr) {
     displayMessage += `
   <li id=${item.id} class='task-li'>
   <input type='checkbox' ${completed} class='checkbox'>
-  <label for='${item.id}' class='input-todo'> ${_.escape(item.todo)} </label>
+  <label for='${item.id}' class='input-todo'> ${item.todo} </label>
   <button class='button-delete'>✕</button>
   </li>`;
   });
@@ -51,15 +50,15 @@ function render(arr) {
   counterTodo();
 }
 
-// function pagination() { // отрисовывам по 5 элементов
-//   const start = rows * (page - 1);
-//   const end = start + rows;
-//   const paginatedArr = arrTodo.slice(start, end);
-//   render(paginatedArr);
-// }
+function pagination(page) { // отрисовывам по 5 элементов
+  const start = rows * (page - 1);
+  const end = start + rows;
+  const paginatedArr = arrTodo.slice(start, end);
+  render(paginatedArr);
+}
 
-function buttonDisplayPagination(arr) {
-  const pagesCount = Math.ceil(arr.length / rows); // какая страница по счету
+function buttonDisplayPagination() {
+  const pagesCount = Math.ceil(arrTodo.length / rows); // какая страница по счету
   paginationAllButton.innerHTML = '';
   for (let i = 0; i < pagesCount; i += 1) {
     const buttonPagination = document.createElement('button');
@@ -71,9 +70,9 @@ function buttonDisplayPagination(arr) {
 
 function test2(event) { // отрисовывам по 5 элементов
   if (event.target.classList.contains('button-pagination')) {
-    page = Number(event.target.textContent);
+    const rowPerPage = Number(event.target.textContent);
     // pagination(rowPerPage);
-    test(arrTodo);
+    RENDER
   }
 }
 

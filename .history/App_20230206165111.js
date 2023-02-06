@@ -8,7 +8,6 @@ const buttonActive = document.querySelector('.button-active');
 const buttonCompleted = document.querySelector('.button-completed');
 const buttonFilter = document.querySelector('.button-filter');
 const paginationAllButton = document.querySelector('.pagination');
-const { _ } = window;
 let arrTodo = [];
 
 function counterTodo() {
@@ -43,7 +42,7 @@ function render(arr) {
     displayMessage += `
   <li id=${item.id} class='task-li'>
   <input type='checkbox' ${completed} class='checkbox'>
-  <label for='${item.id}' class='input-todo'> ${_.escape(item.todo)} </label>
+  <label for='${item.id}' class='input-todo'> ${item.todo} </label>
   <button class='button-delete'>✕</button>
   </li>`;
   });
@@ -109,6 +108,7 @@ function filterTasks(event) {
 
 function valid(value) {
   const text = value.trim().replace(/\s+/g, ' ');
+  text = ${taxt.escape(text)}
   return (text);
 }
 

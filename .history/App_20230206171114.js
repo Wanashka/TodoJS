@@ -43,7 +43,7 @@ function render(arr) {
     displayMessage += `
   <li id=${item.id} class='task-li'>
   <input type='checkbox' ${completed} class='checkbox'>
-  <label for='${item.id}' class='input-todo'> ${_.escape(item.todo)} </label>
+  <label for='${item.id}' class='input-todo'> ${item.todo} </label>
   <button class='button-delete'>✕</button>
   </li>`;
   });
