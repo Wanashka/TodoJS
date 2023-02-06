@@ -28,10 +28,16 @@ function counterTodo() {
 
 const currentPage = 1; // текущая страница
 const rows = 5;
-
+let page = 0;
 function render(arr) {
-  buttonDisplayPagination();
+  const pagesCount = Math.ceil(arrTodo.length / rows); // какая страница по счету
 
+  for (let i = 0; i < pagesCount; i++) {
+    const buttonPagination = document.createElement('button');
+    buttonPagination.classList.add('button-pagination');
+    paginationAllButton.appendChild(buttonPagination);
+    buttonPagination.innerText = page + 1;
+  }
   let displayMessage = '';
   arr.forEach((item) => {
     const completed = item.checked ? 'checked' : '';
@@ -51,17 +57,23 @@ function pagination(page) { // отрисовывам по 5 элементов
   const start = rows * page;
   const end = start + rows;
   const paginatedArr = arrTodo.slice(start, end);
+  const pagesCount = Math.ceil(arrTodo.length / rows); // какая страница по счету
+  // console.log(arrTodo.length >= (pagesCount * rows));
+
+  // if (arrTodo.length > 5) {
+  //   buttonDisplayPagination(currentPage);
+  // }
   render(paginatedArr);
 }
 
-function buttonDisplayPagination() {
+function buttonDisplayPagination(page) {
   const pagesCount = Math.ceil(arrTodo.length / rows); // какая страница по счету
 
-  for (let i = 0; i < pagesCount; i += 1) {
+  for (let i = 0; i < pagesCount; i++) {
     const buttonPagination = document.createElement('button');
     buttonPagination.classList.add('button-pagination');
     paginationAllButton.appendChild(buttonPagination);
-    buttonPagination.innerText = pagesCount;
+    buttonPagination.innerText = page + 1;
   }
 }
 

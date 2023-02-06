@@ -56,9 +56,10 @@ function pagination(page) { // отрисовывам по 5 элементов
 
 function buttonDisplayPagination() {
   const pagesCount = Math.ceil(arrTodo.length / rows); // какая страница по счету
+  // const page = 1;
 
-  for (let i = 0; i < pagesCount; i += 1) {
-    const buttonPagination = document.createElement('button');
+  for (let i = 0; i = pagesCount; i++) {
+    const buttonPagnation = document.createElement('button');
     buttonPagination.classList.add('button-pagination');
     paginationAllButton.appendChild(buttonPagination);
     buttonPagination.innerText = pagesCount;

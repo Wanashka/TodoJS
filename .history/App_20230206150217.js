@@ -56,12 +56,17 @@ function pagination(page) { // отрисовывам по 5 элементов
 
 function buttonDisplayPagination() {
   const pagesCount = Math.ceil(arrTodo.length / rows); // какая страница по счету
-
-  for (let i = 0; i < pagesCount; i += 1) {
-    const buttonPagination = document.createElement('button');
-    buttonPagination.classList.add('button-pagination');
-    paginationAllButton.appendChild(buttonPagination);
-    buttonPagination.innerText = pagesCount;
+  // const page = 1;
+  let a = 0;
+  for (let i = 0; i < pagesCount; i++) {
+    console.log(a);
+    if (pagesCount === a) {
+      const buttonPagination = document.createElement('button');
+      buttonPagination.classList.add('button-pagination');
+      paginationAllButton.appendChild(buttonPagination);
+      buttonPagination.innerText = pagesCount;
+      a++;
+    }
   }
 }
 
