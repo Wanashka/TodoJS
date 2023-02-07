@@ -80,7 +80,7 @@ function filtration(arr) {
   }
 }
 
-function pagination(event) {
+function pagination(event) { 
   if (event.target.classList.contains('button-pagination')) {
     page = Number(event.target.textContent);
     filtration(arrTodo);

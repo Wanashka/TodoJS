@@ -61,7 +61,7 @@ function render(arr) {
   counterTodo();
 }
 
-function filtration(arr) {
+function test(arr) {
   let arrFilter = [];
   switch (buttonFilter.classList.contains('button-filter')) {
     case buttonAll.classList.contains('button-filter-on'):
@@ -80,10 +80,10 @@ function filtration(arr) {
   }
 }
 
-function pagination(event) {
+function pagination(event) { // отрисовывам по 5 элементов
   if (event.target.classList.contains('button-pagination')) {
     page = Number(event.target.textContent);
-    filtration(arrTodo);
+    test(arrTodo);
   }
 }
 
@@ -92,7 +92,7 @@ function filterTasks(event) {
   buttonCompleted.classList.remove('button-filter-on');
   buttonActive.classList.remove('button-filter-on');
   event.target.classList.add('button-filter-on');
-  filtration(arrTodo);
+  test(arrTodo);
 }
 
 function valid(value) {
@@ -112,7 +112,7 @@ function createTodo() {
       checked: false,
     };
     arrTodo.push(newTodo);
-    filtration(arrTodo);
+    test(arrTodo);
     addTodo.value = '';
   }
 }
@@ -124,16 +124,16 @@ function editTask(event) {
   function save() {
     const text = valid(inputTask.value);
     if (text === '') {
-      filtration(arrTodo);
+      test(arrTodo);
     } else {
       task.todo = text;
-      filtration(arrTodo);
+      test(arrTodo);
     }
   }
   function keyup(e) {
     if (e.key === 'Escape') {
       inputTask.removeEventListener('blur', save);
-      filtration(arrTodo);
+      test(arrTodo);
     }
     if (e.key === 'Enter') {
       save();
@@ -155,11 +155,11 @@ function deleteCheckTask(event) {
   const taskId = event.target.parentNode.id;
   if (event.target.classList.contains('button-delete')) {
     arrTodo = arrTodo.filter((item) => item.id !== taskId);
-    filtration(arrTodo);
+    test(arrTodo);
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    filtration(arrTodo);
+    test(arrTodo);
   }
 }
 
@@ -167,12 +167,12 @@ function completedAllTodo() {
   arrTodo.forEach((item) => {
     item.checked = checkboxAll.checked;
   });
-  filtration(arrTodo);
+  test(arrTodo);
 }
 
 function deleteAllCompleted() {
   arrTodo = arrTodo.filter((item) => item.checked !== true);
-  filtration(arrTodo);
+  test(arrTodo);
 }
 
 function createTaskByEnter(event) {
