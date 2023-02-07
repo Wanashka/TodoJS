@@ -1,0 +1,27 @@
+ ul{
+ margin-left: 25%; 
+    width: 600px;
+} 
+li {
+    padding: 20px;
+    background-color: rgb(156, 224, 236);
+    color: white;
+    margin-bottom: 15px;
+    width: 70%;
+    align-items: center;
+    border-radius: 10px;
+}
+label{
+    width: 200px;
+    text-align: start;
+}
+.checkbox{
+    width: 30px;
+}
+.pagination{
+    padding: 10px;
+}
+/* .button-pagination{
+    margin: 0 auto;
+    display: block;
+} */
