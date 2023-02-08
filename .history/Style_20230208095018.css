@@ -45,6 +45,6 @@ label{
     border-radius: 0.25rem;
 }
 .button-filter-on{
-    margin: 5px;
-    box-shadow:  5px 5px rgba(0, 225, 255, 0.541);
+    
+    border: 1px solid rgb(255, 0, 0);
 }

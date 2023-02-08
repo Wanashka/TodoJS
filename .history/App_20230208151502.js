@@ -190,6 +190,10 @@ function completedAllTodo() {
 
 function deleteAllCompleted() {
   arrTodo = arrTodo.filter((item) => item.checked !== true);
+  // const filterCheckTodo = arrTodo.filter((item) => item.checked === true);
+  // if (arrTodo.length === filterCheckTodo.length && checkboxAll.checked) {
+  //   checkboxAll.checked = !checkboxAll.checked;
+  // }
   checkboxAll.checked = !arrTodo.every((item) => item.checked !== true);
   filtration(arrTodo);
 }

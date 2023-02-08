@@ -105,7 +105,7 @@ function filterTasks(event) {
   buttonCompletedFilter.classList.remove('button-filter-on');
   buttonActiveFilter.classList.remove('button-filter-on');
   event.target.classList.add('button-filter-on');
-  buttonFilter.classList.remove('button-filter-on');
+  buttonFilter
   page = 1;
   filtration(arrTodo);
 }
@@ -175,7 +175,6 @@ function deleteCheckTask(event) {
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    checkboxAll.checked = arrTodo.every((item) => item.checked === true);
     filtration(arrTodo);
   }
 }
@@ -190,7 +189,6 @@ function completedAllTodo() {
 
 function deleteAllCompleted() {
   arrTodo = arrTodo.filter((item) => item.checked !== true);
-  checkboxAll.checked = !arrTodo.every((item) => item.checked !== true);
   filtration(arrTodo);
 }
 

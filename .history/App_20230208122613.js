@@ -175,7 +175,10 @@ function deleteCheckTask(event) {
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    checkboxAll.checked = arrTodo.every((item) => item.checked === true);
+    if (task.checked === checkboxAll.checked) {
+      // checkboxAll.checked = !checkboxAll.checked;
+    
+    }
     filtration(arrTodo);
   }
 }
@@ -190,7 +193,9 @@ function completedAllTodo() {
 
 function deleteAllCompleted() {
   arrTodo = arrTodo.filter((item) => item.checked !== true);
-  checkboxAll.checked = !arrTodo.every((item) => item.checked !== true);
+  // if (arrTodo.checked !== checkboxAll.checked) {
+  //   checkboxAll.checked = !checkboxAll.checked;
+  // }
   filtration(arrTodo);
 }
 
