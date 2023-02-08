@@ -22,11 +22,11 @@ label{
 .checkbox-all{
     margin-bottom: 15px;
 }
-.pagination{
+/* .pagination{
     padding: 10px; 
     justify-content: center;
-    flex-wrap: wrap;
-}
+
+} */
 .button-pagination{
     margin: 3px;
     color: #fff;

@@ -25,7 +25,8 @@ label{
 .pagination{
     padding: 10px; 
     justify-content: center;
-    flex-wrap: wrap;
+width: 300px;
+
 }
 .button-pagination{
     margin: 3px;

@@ -12,7 +12,7 @@ const paginationAllButton = document.querySelector('.pagination');
 const { _ } = window;
 let arrTodo = [];
 let page = 1; // текущая страница
-const rows = 5;
+const rows = 1;
 
 function counterTodo() {
   const counterAll = arrTodo.length;
