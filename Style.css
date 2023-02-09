@@ -44,6 +44,10 @@ label{
     font-size: 1rem;
     border-radius: 0.25rem;
 }
+.button-pagination:active {
+    margin: 5px;
+    box-shadow:  5px 5px rgba(0, 225, 255, 0.541);
+}
 .button-filter-on{
     margin: 5px;
     box-shadow:  5px 5px rgba(0, 225, 255, 0.541);

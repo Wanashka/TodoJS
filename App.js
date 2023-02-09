@@ -9,9 +9,12 @@ const buttonActiveFilter = document.querySelector('.button-active');
 const buttonCompletedFilter = document.querySelector('.button-completed');
 const buttonFilter = document.querySelector('.button-filter');
 const paginationAllButton = document.querySelector('.pagination');
+const ButtonEnter = 'Enter';
+const ButtonEscape = 'Escape';
 const { _ } = window;
 let arrTodo = [];
-let page = 1; // текущая страница
+let currentPage = 1;
+let showLastPage = false;
 const rows = 5;
 
 function counterTodo() {
@@ -19,19 +22,20 @@ function counterTodo() {
   let counterCompleted = 0;
   let counterActive = 0;
   arrTodo.forEach((item) => {
-    if (item.checked === true) {
+    if (item.checked) {
       counterCompleted += 1;
     } else {
       counterActive += 1;
     }
   });
+
   buttonAllFilter.textContent = `All (${counterAll})`;
   buttonCompletedFilter.textContent = `Completed (${counterCompleted})`;
   buttonActiveFilter.textContent = `Active (${counterActive})`;
 }
 
 function buttonDisplayPagination(arr) {
-  const pagesCount = Math.ceil(arr.length / rows); // какая страница по счету
+  const pagesCount = Math.ceil(arr.length / rows);
   paginationAllButton.innerHTML = '';
   for (let i = 0; i < pagesCount; i += 1) {
     const buttonPagination = document.createElement('button');
@@ -42,50 +46,57 @@ function buttonDisplayPagination(arr) {
 }
 
 function render(arr) {
+  if (showLastPage) {
+    currentPage = Math.ceil(arr.length / rows);
+    showLastPage = false;
+  }
   buttonDisplayPagination(arr);
-
-  const start = rows * (page - 1);
+  const start = rows * (currentPage - 1);
   const end = start + rows;
   const paginatedArr = arr.slice(start, end);
-
-  let displayMessage = '';
+  checkboxAll.checked = arrTodo.length ? arrTodo.every((item) => item.checked) : false;
+  let taskLi = '';
   paginatedArr.forEach((item) => {
     const completed = item.checked ? 'checked' : '';
-    displayMessage += `
-  <li id=${item.id} class='task-li'>
-  <input type='checkbox' ${completed} class='checkbox'>
-  <label for='${item.id}' class='input-todo'> ${_.escape(item.todo)} </label>
-  <button class='button-delete'>✕</button>
-  </li>`;
+    taskLi += `
+      <li id=${item.id} class='task-li'>
+        <input type='checkbox' ${completed} class='checkbox'>
+        <label for='${item.id}' class='input-todo'> ${_.escape(item.todo)} </label>
+        <button class='button-delete'>✕</button>
+      </li>`;
   });
-  todo.innerHTML = displayMessage;
+  todo.innerHTML = taskLi;
   counterTodo();
+}
+
+function switchFilterOnAll(arr) {
+  render(arr);
+  buttonCompletedFilter.classList.remove('button-filter-on');
+  buttonActiveFilter.classList.remove('button-filter-on');
+  buttonAllFilter.classList.add('button-filter-on');
 }
 
 function filtration(arr) {
   let arrFilter = [];
-  switch (buttonFilter.classList.contains('button-filter')) {
-    case buttonAllFilter.classList.contains('button-filter-on'):
+  const buttonFilterOn = document.querySelector('.button-filter-on');
+  switch (buttonFilterOn.id) {
+    case 'button-all':
       render(arr);
       break;
-    case buttonActiveFilter.classList.contains('button-filter-on'):
-      arrFilter = arr.filter((item) => item.checked !== true);
+    case 'button-active':
+      arrFilter = arr.filter((item) => !item.checked);
       if (arrFilter.length > 0) {
         render(arrFilter);
       } else {
-        render(arr);
-        buttonActiveFilter.classList.remove('button-filter-on');
-        buttonAllFilter.classList.add('button-filter-on');
+        switchFilterOnAll(arr);
       }
       break;
-    case buttonCompletedFilter.classList.contains('button-filter-on'):
-      arrFilter = arr.filter((item) => item.checked === true);
+    case 'button-completed':
+      arrFilter = arr.filter((item) => item.checked);
       if (arrFilter.length > 0) {
         render(arrFilter);
       } else {
-        render(arr);
-        buttonCompletedFilter.classList.remove('button-filter-on');
-        buttonAllFilter.classList.add('button-filter-on');
+        switchFilterOnAll(arr);
       }
       break;
     default:
@@ -93,30 +104,31 @@ function filtration(arr) {
   }
 }
 
-function pagination(event) {
+function paginationPageDisplay(event) {
   if (event.target.classList.contains('button-pagination')) {
-    page = Number(event.target.textContent);
+    currentPage = Number(event.target.textContent);
     filtration(arrTodo);
   }
 }
 
 function filterTasks(event) {
-  buttonAllFilter.classList.remove('button-filter-on');
-  buttonCompletedFilter.classList.remove('button-filter-on');
-  buttonActiveFilter.classList.remove('button-filter-on');
+  const buttonFilterOn = document.querySelector('.button-filter-on');
+  if (event.target.classList.contains('button-filter')) {
+    return;
+  }
+  showLastPage = true;
+  buttonFilterOn.classList.remove('button-filter-on');
   event.target.classList.add('button-filter-on');
-  buttonFilter.classList.remove('button-filter-on');
-  page = 1;
   filtration(arrTodo);
 }
 
-function valid(value) {
+function inputValidation(value) {
   const text = value.trim().replace(/\s+/g, ' ');
-  return (text);
+  return text;
 }
 
 function createTodo() {
-  const text = valid(inputTodo.value);
+  const text = inputValidation(inputTodo.value);
   if (text === '') {
     inputTodo.placeholder = 'Enter a task';
     inputTodo.focus();
@@ -127,7 +139,7 @@ function createTodo() {
       checked: false,
     };
     arrTodo.push(newTodo);
-    page = Math.ceil(arrTodo.length / rows);
+    currentPage = Math.ceil(arrTodo.length / rows);
     filtration(arrTodo);
     inputTodo.value = '';
   }
@@ -137,8 +149,8 @@ function editTask(event) {
   const inputTask = document.createElement('input');
   const taskId = event.target.parentNode.id;
   const task = arrTodo.find((item) => item.id === taskId);
-  function save() {
-    const text = valid(inputTask.value);
+  function saveChanges() {
+    const text = inputValidation(inputTask.value);
     if (text === '') {
       filtration(arrTodo);
     } else {
@@ -146,13 +158,13 @@ function editTask(event) {
       filtration(arrTodo);
     }
   }
-  function keyup(e) {
-    if (e.key === 'Escape') {
-      inputTask.removeEventListener('blur', save);
+  function buttonClickHandler(e) {
+    if (e.key === ButtonEscape) {
+      inputTask.removeEventListener('blur', saveChanges);
       filtration(arrTodo);
     }
-    if (e.key === 'Enter') {
-      save();
+    if (e.key === ButtonEnter) {
+      saveChanges();
     }
   }
   if (event.target.classList.contains('input-todo')) {
@@ -162,12 +174,12 @@ function editTask(event) {
     inputTask.value = task.todo;
     inputTask.focus();
 
-    inputTask.addEventListener('keyup', keyup);
-    inputTask.addEventListener('blur', save);
+    inputTask.addEventListener('keyup', buttonClickHandler);
+    inputTask.addEventListener('blur', saveChanges);
   }
 }
 
-function deleteCheckTask(event) {
+function deleteOrCheckTask(event) {
   const taskId = event.target.parentNode.id;
   if (event.target.classList.contains('button-delete')) {
     arrTodo = arrTodo.filter((item) => item.id !== taskId);
@@ -175,7 +187,6 @@ function deleteCheckTask(event) {
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
-    checkboxAll.checked = arrTodo.every((item) => item.checked === true);
     filtration(arrTodo);
   }
 }
@@ -189,22 +200,21 @@ function completedAllTodo() {
 }
 
 function deleteAllCompleted() {
-  arrTodo = arrTodo.filter((item) => item.checked !== true);
-  checkboxAll.checked = !arrTodo.every((item) => item.checked !== true);
+  arrTodo = arrTodo.filter((item) => !item.checked);
   filtration(arrTodo);
 }
 
 function createTaskByEnter(event) {
-  if (event.key === 'Enter') {
+  if (event.key === ButtonEnter) {
     createTodo();
   }
 }
 
 deleteAll.addEventListener('click', deleteAllCompleted);
-todo.addEventListener('click', deleteCheckTask);
+todo.addEventListener('click', deleteOrCheckTask);
 todo.addEventListener('dblclick', editTask);
 checkboxAll.addEventListener('click', completedAllTodo);
 buttonFilter.addEventListener('click', filterTasks);
 buttonCreateTodo.addEventListener('click', createTodo);
 inputTodo.addEventListener('keyup', createTaskByEnter);
-paginationAllButton.addEventListener('click', pagination);
+paginationAllButton.addEventListener('click', paginationPageDisplay);
