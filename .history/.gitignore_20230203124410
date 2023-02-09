@@ -2,8 +2,6 @@
 
 /.vscode/
 
-/.history/
-
 package.json
 
 package-lock.json
