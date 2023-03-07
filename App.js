@@ -41,9 +41,9 @@ function buttonDisplayPagination(arr) {
     const buttonPagination = document.createElement('button');
     buttonPagination.classList.add('button-pagination');
     paginationAllButton.appendChild(buttonPagination);
-  //   if(currentPage === (--i)){
-  //   buttonPagination.classList.add('button-pagination-active')
-  // }
+    if (currentPage === (i + 1)) {
+      buttonPagination.classList.add('button-pagination-active');
+    }
     buttonPagination.innerText = i + 1;
   }
 }
@@ -73,10 +73,18 @@ function render(arr) {
 }
 
 function switchFilterOnAll(arr) {
-  render(arr);
   buttonCompletedFilter.classList.remove('button-filter-on');
   buttonActiveFilter.classList.remove('button-filter-on');
   buttonAllFilter.classList.add('button-filter-on');
+  render(arr);
+}
+
+function filterTab(arr) {
+  if (arr.length > 0) {
+    render(arr);
+  } else {
+    switchFilterOnAll(arrTodo);
+  }
 }
 
 function filtration(arr) {
@@ -88,19 +96,11 @@ function filtration(arr) {
       break;
     case 'button-active':
       arrFilter = arr.filter((item) => !item.checked);
-      if (arrFilter.length > 0) {
-        render(arrFilter);
-      } else {
-        switchFilterOnAll(arr);
-      }
+      filterTab(arrFilter);
       break;
     case 'button-completed':
       arrFilter = arr.filter((item) => item.checked);
-      if (arrFilter.length > 0) {
-        render(arrFilter);
-      } else {
-        switchFilterOnAll(arr);
-      }
+      filterTab(arrFilter);
       break;
     default:
       render(arr);
