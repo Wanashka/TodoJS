@@ -41,6 +41,9 @@ function buttonDisplayPagination(arr) {
     const buttonPagination = document.createElement('button');
     buttonPagination.classList.add('button-pagination');
     paginationAllButton.appendChild(buttonPagination);
+  //   if(currentPage === (--i)){
+  //   buttonPagination.classList.add('button-pagination-active')
+  // }
     buttonPagination.innerText = i + 1;
   }
 }
