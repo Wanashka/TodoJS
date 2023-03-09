@@ -49,6 +49,9 @@ function buttonDisplayPagination(arr) {
 }
 
 function render(arr) {
+  if ((currentPage - 1 === Math.ceil(arr.length / rows)) && ((arr.length % rows) === 0)) {
+    showLastPage = true;
+  }
   if (showLastPage) {
     currentPage = Math.ceil(arr.length / rows);
     showLastPage = false;
@@ -76,6 +79,7 @@ function switchFilterOnAll(arr) {
   buttonCompletedFilter.classList.remove('button-filter-on');
   buttonActiveFilter.classList.remove('button-filter-on');
   buttonAllFilter.classList.add('button-filter-on');
+  showLastPage = true;
   render(arr);
 }
 
@@ -104,6 +108,28 @@ function filtration(arr) {
       break;
     default:
       render(arr);
+  }
+}
+
+function addTaskOnObject(text) {
+  const newTodo = {
+    id: String(Date.now()),
+    todo: text.italics(),
+    checked: false,
+  };
+  arrTodo.push(newTodo);
+  localStorage.setItem('todo', JSON.stringify(arrTodo));
+  arrTodo = JSON.parse(localStorage.getItem('todo'));
+  showLastPage = true;
+  filtration(arrTodo);
+}
+
+function checkingTheTask() {
+  if (localStorage.getItem('todo')) {
+    arrTodo = JSON.parse(localStorage.getItem('todo'));
+    filtration(arrTodo);
+  } else {
+    addTaskOnObject('Hello world');
   }
 }
 
@@ -136,14 +162,7 @@ function createTodo() {
     inputTodo.placeholder = 'Enter a task';
     inputTodo.focus();
   } else {
-    const newTodo = {
-      id: String(Date.now()),
-      todo: text,
-      checked: false,
-    };
-    arrTodo.push(newTodo);
-    currentPage = Math.ceil(arrTodo.length / rows);
-    filtration(arrTodo);
+    addTaskOnObject(text);
     inputTodo.value = '';
   }
 }
@@ -158,6 +177,7 @@ function editTask(event) {
       filtration(arrTodo);
     } else {
       task.todo = text;
+      localStorage.setItem('todo', JSON.stringify(arrTodo));
       filtration(arrTodo);
     }
   }
@@ -186,10 +206,12 @@ function deleteOrCheckTask(event) {
   const taskId = event.target.parentNode.id;
   if (event.target.classList.contains('button-delete')) {
     arrTodo = arrTodo.filter((item) => item.id !== taskId);
+    localStorage.setItem('todo', JSON.stringify(arrTodo));
     filtration(arrTodo);
   } else if (event.target.classList.contains('checkbox')) {
     const task = arrTodo.find((item) => item.id === taskId);
     task.checked = !task.checked;
+    localStorage.setItem('todo', JSON.stringify(arrTodo));
     filtration(arrTodo);
   }
 }
@@ -199,11 +221,14 @@ function completedAllTodo() {
     const itemTodo = item;
     itemTodo.checked = checkboxAll.checked;
   });
+  localStorage.setItem('todo', JSON.stringify(arrTodo));
   filtration(arrTodo);
 }
 
 function deleteAllCompleted() {
   arrTodo = arrTodo.filter((item) => !item.checked);
+  localStorage.setItem('todo', JSON.stringify(arrTodo));
+  showLastPage = true;
   filtration(arrTodo);
 }
 
@@ -213,6 +238,7 @@ function createTaskByEnter(event) {
   }
 }
 
+window.addEventListener('load', checkingTheTask);
 deleteAll.addEventListener('click', deleteAllCompleted);
 todo.addEventListener('click', deleteOrCheckTask);
 todo.addEventListener('dblclick', editTask);
