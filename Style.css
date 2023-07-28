@@ -10,7 +10,6 @@ li {
   margin-bottom: 15px;
   border-radius: 10px;
   display: flex;
-
 }
 label {
   width: 290px;
@@ -22,7 +21,7 @@ label {
   margin: auto;
 }
 .button-delete {
-    margin: auto;
+  margin: auto;
 }
 .checkbox-all {
   margin-bottom: 15px;
@@ -56,4 +55,15 @@ label {
 .button-filter-on {
   margin: 5px;
   box-shadow: 5px 5px rgba(0, 225, 255, 0.541);
+}
+/* .input-group-append {
+  display: inline;
+} */
+.notification {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ff6961;
+  color: #fff;
+  border-radius: 5px;
 }

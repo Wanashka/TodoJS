@@ -9,12 +9,17 @@
   const buttonCompletedFilter = document.querySelector('.button-completed');
   const buttonFilter = document.querySelector('.button-filter');
   const paginationAllButton = document.querySelector('.pagination');
+  const buttonSearchTodo = document.querySelector('#button-search-todo');
+  const checkboxAllLabel = document.querySelector('#check-all-label');
+  const blockCheckAll = document.querySelector('.block-checkAll');
+  const notification = document.querySelector('.notification');
   const ButtonEnter = 'Enter';
   const ButtonEscape = 'Escape';
   const { _ } = window;
   let arrTodo = [];
   let currentPage = 1;
   let showLastPage = false;
+  let showButtonOffFilter = true;
   const rows = 5;
 
   function counterTodo() {
@@ -41,7 +46,7 @@
       const buttonPagination = document.createElement('button');
       buttonPagination.classList.add('button-pagination');
       paginationAllButton.appendChild(buttonPagination);
-      if (currentPage === (i + 1)) {
+      if (currentPage === i + 1) {
         buttonPagination.classList.add('button-pagination-active');
       }
       buttonPagination.innerText = i + 1;
@@ -49,7 +54,7 @@
   }
 
   function render(arr) {
-    if ((currentPage - 1 === Math.ceil(arr.length / rows)) && ((arr.length % rows) === 0)) {
+    if (currentPage - 1 === Math.ceil(arr.length / rows) && arr.length % rows === 0) {
       showLastPage = true;
     }
     if (showLastPage) {
@@ -67,7 +72,7 @@
       taskLi += `
       <li id=${item.id} class='task-li'>
         <input type='checkbox' ${completed} class='checkbox'>
-        <label for='${item.id}' class='input-todo'> ${_.escape(item.todo)} </label>
+        <label for='${item.id}' class='input-todo'>${_.escape(item.todo)}</label>
         <button class='button-delete'>✕</button>
       </li>`;
     });
@@ -238,6 +243,39 @@
     }
   }
 
+  function searchTask() {
+    arrTodo = JSON.parse(localStorage.getItem('todo'));
+    arrTodo = arrTodo.filter((item) => item.todo === inputTodo.value);
+    if (arrTodo.length === 0) {
+      notification.style.display = 'inline';
+    } else {
+      notification.style.display = 'none';
+    }
+    showLastPage = true;
+    const removeFiltration = document.createElement('button');
+    removeFiltration.classList.add('remove-filter-search');
+    if (showButtonOffFilter) {
+      checkboxAllLabel.after(removeFiltration);
+      showButtonOffFilter = false;
+    }
+    removeFiltration.innerText = 'Return tasks';
+    buttonCreateTodo.style.display = 'none';
+    filtration(arrTodo);
+  }
+
+  function removeFilterSearch(event) {
+    if (event.target.classList.contains('remove-filter-search')) {
+      const buttonSearchRemove = document.querySelector('.remove-filter-search');
+      showButtonOffFilter = true;
+      buttonSearchRemove.remove();
+      arrTodo = JSON.parse(localStorage.getItem('todo'));
+      buttonCreateTodo.style.display = 'inline';
+      notification.style.display = 'none';
+      showLastPage = true;
+      filtration(arrTodo);
+    }
+  }
+
   window.addEventListener('load', checkingTheTask);
   deleteAll.addEventListener('click', deleteAllCompleted);
   todo.addEventListener('click', deleteOrCheckTask);
@@ -247,4 +285,6 @@
   buttonCreateTodo.addEventListener('click', createTodo);
   inputTodo.addEventListener('keyup', createTaskByEnter);
   paginationAllButton.addEventListener('click', paginationPageDisplay);
+  buttonSearchTodo.addEventListener('click', searchTask);
+  blockCheckAll.addEventListener('click', removeFilterSearch);
 })();
