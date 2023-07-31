@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  /* padding: 0; */
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
 ul {
   text-align: center;
 }
@@ -22,6 +28,9 @@ label {
 }
 .button-delete {
   margin: auto;
+}
+.button-edit {
+  margin: auto 5px;
 }
 .checkbox-all {
   margin-bottom: 15px;
@@ -66,4 +75,25 @@ label {
   background-color: #ff6961;
   color: #fff;
   border-radius: 5px;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 450px;
+  padding: 1.3rem;
+  min-height: 250px;
+  position: absolute;
+  top: 20%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
 }

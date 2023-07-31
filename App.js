@@ -1,6 +1,5 @@
 (() => {
-  const inputTodo = document.querySelector('#todo');
-  const buttonCreateTodo = document.querySelector('#button-create-todo');
+  const inputSearch = document.querySelector('#search-input');
   const todo = document.querySelector('#myUL');
   const checkboxAll = document.querySelector('.checkbox-all');
   const deleteAll = document.querySelector('.delete-all');
@@ -13,14 +12,36 @@
   const checkboxAllLabel = document.querySelector('#check-all-label');
   const blockCheckAll = document.querySelector('.block-checkAll');
   const notification = document.querySelector('.notification');
-  const ButtonEnter = 'Enter';
-  const ButtonEscape = 'Escape';
+  const openModalWindowCreate = document.querySelector('#button-open-modal-window');
+  const myModalBlock = document.querySelector('#myModal');
+  let modalTask = '';
   const { _ } = window;
   let arrTodo = [];
   let currentPage = 1;
   let showLastPage = false;
   let showButtonOffFilter = true;
   const rows = 5;
+
+  function modalOpenCreateTasks() {
+    myModalBlock.style.display = 'flex';
+    modalTask = `
+    <div class="modal-content">
+    
+      <h2>Create a task</h2>
+      <p>Title</p>
+      <input type="text" class="form-control" id="task-title" />
+      <p>Description</p>
+      <input type="text" class="form-control" id="task-description" />
+    
+    <button type="button" class="button-create-todo btn btn-outline-secondary"> add </button>
+    <button type="button" class="close-modal-task btn btn-outline-secondary">cancel</button>
+    </div>`;
+    myModalBlock.innerHTML = modalTask;
+  }
+
+  function closeModalCreateTasks() {
+    myModalBlock.style.display = 'none';
+  }
 
   function counterTodo() {
     const counterAll = arrTodo.length;
@@ -73,6 +94,7 @@
       <li id=${item.id} class='task-li'>
         <input type='checkbox' ${completed} class='checkbox'>
         <label for='${item.id}' class='input-todo'>${_.escape(item.todo)}</label>
+        <button class='button-edit'>&#9998</button>
         <button class='button-delete'>✕</button>
       </li>`;
     });
@@ -116,10 +138,11 @@
     }
   }
 
-  function addTaskOnObject(text) {
+  function addTaskOnObject(textTitle, descriptionText) {
     const newTodo = {
       id: String(Date.now()),
-      todo: text,
+      todo: textTitle,
+      description: descriptionText,
       checked: false,
     };
     arrTodo.push(newTodo);
@@ -134,7 +157,7 @@
       arrTodo = JSON.parse(localStorage.getItem('todo'));
       filtration(arrTodo);
     } else {
-      addTaskOnObject('Hello world');
+      addTaskOnObject('Hello', 'world');
     }
   }
 
@@ -161,50 +184,76 @@
     return text;
   }
 
+  function removeFilterSearch() {
+    const buttonSearchRemove = document.querySelector('.remove-filter-search');
+    showButtonOffFilter = true;
+    buttonSearchRemove.remove();
+    arrTodo = JSON.parse(localStorage.getItem('todo'));
+    notification.style.display = 'none';
+    showLastPage = true;
+    filtration(arrTodo);
+  }
+
+  function selectFilterSearch(event) {
+    if (event.target.classList.contains('remove-filter-search')) {
+      removeFilterSearch();
+    }
+  }
   function createTodo() {
-    const text = inputValidation(inputTodo.value);
-    if (text === '') {
-      inputTodo.placeholder = 'Enter a task';
-      inputTodo.focus();
+    const inputTaskTitle = document.querySelector('#task-title');
+    const inputTaskDescription = document.querySelector('#task-description');
+    const title = inputValidation(inputTaskTitle.value);
+    const description = inputValidation(inputTaskDescription.value);
+    if (title === '') {
+      inputTaskTitle.placeholder = 'Enter a title';
+      inputTaskTitle.focus();
+    } else if (description === '') {
+      inputTaskDescription.placeholder = 'Enter a description';
+      inputTaskDescription.focus();
     } else {
-      addTaskOnObject(text);
-      inputTodo.value = '';
+      closeModalCreateTasks();
+      addTaskOnObject(title, description);
     }
   }
 
-  function editTask(event) {
-    const inputTask = document.createElement('input');
-    const taskId = event.target.parentNode.id;
-    const task = arrTodo.find((item) => item.id === taskId);
-    function saveChanges() {
-      const text = inputValidation(inputTask.value);
-      if (text === '') {
-        filtration(arrTodo);
-      } else {
-        task.todo = text;
-        localStorage.setItem('todo', JSON.stringify(arrTodo));
-        filtration(arrTodo);
-      }
-    }
-    function buttonClickHandler(e) {
-      if (e.key === ButtonEscape) {
-        inputTask.removeEventListener('blur', saveChanges);
-        filtration(arrTodo);
-      }
-      if (e.key === ButtonEnter) {
-        saveChanges();
-      }
-    }
-    if (event.target.classList.contains('input-todo')) {
-      const taskToEdit = event.target;
-      inputTask.classList.add('input-edit-task');
-      taskToEdit.replaceWith(inputTask);
-      inputTask.value = task.todo;
-      inputTask.focus();
+  function showTask() {
+    myModalBlock.style.display = 'none';
+    filtration(arrTodo);
+  }
 
-      inputTask.addEventListener('keyup', buttonClickHandler);
-      inputTask.addEventListener('blur', saveChanges);
+  function editTask(taskId) {
+    const task = arrTodo.find((item) => item.id === taskId);
+    myModalBlock.style.display = 'flex';
+    modalTask = `
+  <div class="modal-content">
+    <h2>Edit a task</h2>
+    <p>Title</p>
+    <input type="text" class="form-control" id="task-title" value="${task.todo}" />
+    <p>Description</p>
+    <input type="text" class="form-control" id="task-description" value="${task.description}" />
+  
+    <button type="button" class="button-edit-todo btn btn-outline-secondary"> edit </button>
+    <button type="button" class="close-modal-task btn btn-outline-secondary">cancel</button>
+  </div>`;
+    myModalBlock.innerHTML = modalTask;
+
+    const buttonEditTask = document.querySelector('.button-edit-todo');
+
+    function saveEditTask() {
+      const inputTitleText = inputValidation(document.querySelector('#task-title').value);
+      const inputDescriptionText = inputValidation(document.querySelector('#task-description').value);
+      if (inputTitleText === '') {
+        showTask();
+      } else if (inputDescriptionText === '') {
+        showTask();
+      } else {
+        task.todo = inputTitleText;
+        task.description = inputDescriptionText;
+        localStorage.setItem('todo', JSON.stringify(arrTodo));
+        showTask();
+      }
     }
+    buttonEditTask.addEventListener('click', saveEditTask);
   }
 
   function deleteOrCheckTask(event) {
@@ -218,6 +267,40 @@
       task.checked = !task.checked;
       localStorage.setItem('todo', JSON.stringify(arrTodo));
       filtration(arrTodo);
+    } else if (event.target.classList.contains('button-edit')) {
+      editTask(taskId);
+    } else if (event.target.classList.contains('input-todo')) {
+      myModalBlock.style.display = 'flex';
+      arrTodo.forEach((item) => {
+        if (taskId === item.id) {
+          modalTask = `
+          <div id=${item.id} class="modal-content"> 
+          <h1>Task</h1>
+          <h3>Title</h3>
+          <p>${item.todo}</p>
+          <h3>Description</h3>
+          <p>${item.description}</p>
+          <button class="button-edit btn btn-outline-secondary">Editing</button>
+          <button class="close-modal-task btn btn-outline-secondary">close</button>
+          </div>`;
+          myModalBlock.innerHTML = modalTask;
+        }
+      });
+    }
+  }
+
+  function closeModalTask(event) {
+    const buttonSearchRemove = document.querySelector('.remove-filter-search');
+    if (event.target.classList.contains('close-modal-task')) {
+      modalTask = '';
+      myModalBlock.style.display = 'none';
+    } else if (event.target.classList.contains('button-create-todo')) {
+      if (buttonSearchRemove) {
+        removeFilterSearch();
+      }
+      createTodo();
+    } else if (event.target.classList.contains('button-edit')) {
+      editTask(event.target.parentNode.id);
     }
   }
 
@@ -237,15 +320,9 @@
     filtration(arrTodo);
   }
 
-  function createTaskByEnter(event) {
-    if (event.key === ButtonEnter) {
-      createTodo();
-    }
-  }
-
   function searchTask() {
     arrTodo = JSON.parse(localStorage.getItem('todo'));
-    arrTodo = arrTodo.filter((item) => item.todo === inputTodo.value);
+    arrTodo = arrTodo.filter((item) => item.todo === inputSearch.value);
     if (arrTodo.length === 0) {
       notification.style.display = 'inline';
     } else {
@@ -259,32 +336,18 @@
       showButtonOffFilter = false;
     }
     removeFiltration.innerText = 'Return tasks';
-    buttonCreateTodo.style.display = 'none';
     filtration(arrTodo);
-  }
-
-  function removeFilterSearch(event) {
-    if (event.target.classList.contains('remove-filter-search')) {
-      const buttonSearchRemove = document.querySelector('.remove-filter-search');
-      showButtonOffFilter = true;
-      buttonSearchRemove.remove();
-      arrTodo = JSON.parse(localStorage.getItem('todo'));
-      buttonCreateTodo.style.display = 'inline';
-      notification.style.display = 'none';
-      showLastPage = true;
-      filtration(arrTodo);
-    }
   }
 
   window.addEventListener('load', checkingTheTask);
   deleteAll.addEventListener('click', deleteAllCompleted);
   todo.addEventListener('click', deleteOrCheckTask);
-  todo.addEventListener('dblclick', editTask);
   checkboxAll.addEventListener('click', completedAllTodo);
   buttonFilter.addEventListener('click', filterTasks);
-  buttonCreateTodo.addEventListener('click', createTodo);
-  inputTodo.addEventListener('keyup', createTaskByEnter);
   paginationAllButton.addEventListener('click', paginationPageDisplay);
   buttonSearchTodo.addEventListener('click', searchTask);
-  blockCheckAll.addEventListener('click', removeFilterSearch);
+  blockCheckAll.addEventListener('click', selectFilterSearch);
+  openModalWindowCreate.addEventListener('click', modalOpenCreateTasks);
+  myModalBlock.addEventListener('click', closeModalTask);
+  myModalBlock.addEventListener('keyup', showTask);
 })();

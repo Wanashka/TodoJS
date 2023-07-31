@@ -15,14 +15,18 @@
   <div class="container">
     <h1 class="text-center">TodoJS App</h1>
     <div class="input-group mb-3">
-      <input type="text" class="form-control" id="todo" />
+      <input type="text" class="form-control" id="search-input" />
       <div class="input-group-append">
-        <button type="button" id="button-create-todo" class="btn btn-outline-secondary"> add </button>
         <button type="button" id="button-search-todo" class="btn btn-outline-secondary"> search </button>
+        <button type="button" id="button-open-modal-window" class="btn btn-outline-secondary"> Create tasks </button>
       </div>
     </div>
     <div class="notification" id="notification">Nothing found</div>
   </div>
+
+  <div id="myModal" class="modal">
+  </div>
+  
   <div class="text-center ">
     <div class="block-checkAll">
       <input type="checkbox" id="checkAll" class="checkbox-all" />
