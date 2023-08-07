@@ -21,6 +21,15 @@
   let showLastPage = false;
   let showButtonOffFilter = true;
   const rows = 5;
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  };
 
   function modalOpenCreateTasks() {
     myModalBlock.style.display = 'flex';
@@ -32,7 +41,10 @@
       <input type="text" class="form-control" id="task-title" />
       <p>Description</p>
       <input type="text" class="form-control" id="task-description" />
-    
+      <br/>
+      <p>Complete the task before</p>
+      <input type="datetime-local" class="form-control" id="task-time-completed" />
+          
     <button type="button" class="button-create-todo btn btn-outline-secondary"> add </button>
     <button type="button" class="close-modal-task btn btn-outline-secondary">cancel</button>
     </div>`;
@@ -90,8 +102,15 @@
     let taskLi = '';
     paginatedArr.forEach((item) => {
       const completed = item.checked ? 'checked' : '';
+      function selectStyleCompletedTask() {
+        if (new Date(item.TaskCompletionTime).getTime() < new Date().getTime()) {
+          return 'background: red';
+        }
+        return 'background: rgb(156, 224, 236)';
+      }
+
       taskLi += `
-      <li id=${item.id} class='task-li'>
+      <li id=${item.id} class='task-li' draggable='true' style='${selectStyleCompletedTask()}' >
         <input type='checkbox' ${completed} class='checkbox'>
         <label for='${item.id}' class='input-todo'>${_.escape(item.todo)}</label>
         <button class='button-edit'>&#9998</button>
@@ -138,11 +157,12 @@
     }
   }
 
-  function addTaskOnObject(textTitle, descriptionText) {
+  function addTaskOnObject(textTitle, descriptionText, inputTime) {
     const newTodo = {
       id: String(Date.now()),
       todo: textTitle,
       description: descriptionText,
+      TaskCompletionTime: inputTime,
       checked: false,
     };
     arrTodo.push(newTodo);
@@ -199,9 +219,11 @@
       removeFilterSearch();
     }
   }
+
   function createTodo() {
     const inputTaskTitle = document.querySelector('#task-title');
     const inputTaskDescription = document.querySelector('#task-description');
+    const inputTaskTimeCompleted = document.querySelector('#task-time-completed');
     const title = inputValidation(inputTaskTitle.value);
     const description = inputValidation(inputTaskDescription.value);
     if (title === '') {
@@ -210,9 +232,12 @@
     } else if (description === '') {
       inputTaskDescription.placeholder = 'Enter a description';
       inputTaskDescription.focus();
+    } else if (new Date(inputTaskTimeCompleted.value).getTime() < new Date().getTime()) {
+      inputTaskTimeCompleted.focus();
+      inputTaskTimeCompleted.style.color = 'red';
     } else {
       closeModalCreateTasks();
-      addTaskOnObject(title, description);
+      addTaskOnObject(title, description, inputTaskTimeCompleted.value);
     }
   }
 
@@ -280,6 +305,11 @@
           <p>${item.todo}</p>
           <h3>Description</h3>
           <p>${item.description}</p>
+          <h5>Task created</h5>
+          <p>${new Date(Number(item.id)).toLocaleString('en-US', options)}</p>
+          <h5>Run to</h5>
+          <p>${new Date(item.TaskCompletionTime).toLocaleString('en-US', options)}</p>
+
           <button class="button-edit btn btn-outline-secondary">Editing</button>
           <button class="close-modal-task btn btn-outline-secondary">close</button>
           </div>`;
@@ -349,5 +379,4 @@
   blockCheckAll.addEventListener('click', selectFilterSearch);
   openModalWindowCreate.addEventListener('click', modalOpenCreateTasks);
   myModalBlock.addEventListener('click', closeModalTask);
-  myModalBlock.addEventListener('keyup', showTask);
 })();
