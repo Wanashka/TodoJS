@@ -177,7 +177,7 @@
       arrTodo = JSON.parse(localStorage.getItem('todo'));
       filtration(arrTodo);
     } else {
-      addTaskOnObject('Hello', 'world');
+      addTaskOnObject('Hello', 'world', new Date());
     }
   }
 
