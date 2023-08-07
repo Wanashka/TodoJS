@@ -103,7 +103,7 @@
     paginatedArr.forEach((item) => {
       const completed = item.checked ? 'checked' : '';
       function selectStyleCompletedTask() {
-        if (new Date(item.TaskCompletionTime).getTime() < new Date().getTime()) {
+        if (new Date(item.TaskCompletionTime).getTime() < new Date().getTime() && !item.checked) {
           return 'background: red';
         }
         return 'background: rgb(156, 224, 236)';
